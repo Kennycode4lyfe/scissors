@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap" rel="stylesheet">
+    <script
+    src="https://kit.fontawesome.com/58740b3685.js"
+    crossorigin="anonymous"
+  ></script>
+</head>
+<body>
+    <div class="nav-div">
+        <nav class="nav">
+            <i class="fa-solid fa-hand-scissors fa-rotate-90 fa-lg" style="color: #1e61b8;"></i>
+            <div class="logo">Scissors</div>
+        </nav>
+        <form  action="/urls" method="get">
+        <div>
+            <button class="btn" type="submit">Analytics</button>  
+        </div>
+        </form>
+    </div>
+    <!-- <script>
+        function removeMessage() {
+            const message = document.getElementById('message')
+            message.innerText=''
+        }
+      </script> -->
+    <div class="center">
+    <form class="urlForm" action="/shortUrl" method="post">
+    <div class="inputFields">
+    <div class="inputBox">
+        <input type="text" required="required" name="full" onfocus="removeMessage()">
+        <span><i class="fa-solid fa-link" style="color: #fccb06;"></i>long url</span>
+    
+    </div>
+    <div class="inputBox">
+        <input type="text" required="required" name="short">
+        <span><i class="fa-solid fa-pen" style="color: #fccb06;"></i>preferred link</span>
+    </div>
+    </div>
+    <div>
+        <button class="btn" type="submit">GENERATE</button>
+    </div>
+    
+</form>
+</div>
+<% if(shortUrl&&shortUrl.urlDetails){ %>
+
+<p id="message"><a href="/shortUrl/<%=shortUrl.urlDetails.short%>"><%=shortUrl.short%></a></p>
+<%}else{%>
+    <p id="message"><%=shortUrl.short%></p>
+<%}%>
+<script>
+    function removeMessage() {
+        const message = document.getElementById('message')
+        message.innerHTML=''
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/58740b3685.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="nav-div">
+      <nav class="nav">
+        <i
+          class="fa-solid fa-hand-scissors fa-rotate-90 fa-lg"
+          style="color: #1e61b8"
+        ></i>
+        <a href="/"> <div class="logo">Scissors</div></a>
+      </nav>
+    </div>
+    <div class="table">
+      <div class="table_header">
+        <p>Url History</p>
+        <div>
+          <button class="newUrl">Get New Link</button>
+        </div>
+      </div>
+      <div class="table_section">
+        <table>
+          <thead>
+            <tr>
+              <th>Full Url</th>
+              <th>Short Url</th>
+              <th>Action</th>
+              <th>Clicks</th>
+            </tr>
+          </thead>
+          <script>
+            class urlLinks {
+              constructor(shortLink) {
+                this.shortLink = shortLink;
+              }
+
+              async deleteLink() {
+                console.log(this.shortLink);
+                setInterval(() => {
+                  document.location.reload(true) 
+                },2000);
+               await fetch(`/shortUrl/${this.shortLink}`, { method: "DELETE" })
+               
+              }
+
+              async qrCodeLink() {
+                console.log(this.shortLink);
+                window.location.href = `/qrcode/${this.shortLink}`;
+              }
+            }
+          </script>
+          <tbody>
+            <% userUrls.urlDetails.forEach(url=>{ %>
+            <tr>
+              <td><a href="/shortUrl/<%= url.full %>"><%=url.full %></a>
+              </td>
+             <td><a href="/shortUrl/<%= url.short %>"><%=userUrls.hostname%>/shortUrl/<%=url.short %></a>
+            </td>
+              
+              <td>
+                <button onclick="new urlLinks('<%=url.short%>').qrCodeLink()">
+                  <i class="fa-solid fa-qrcode"></i>
+                </button>
+                <button onclick="new urlLinks('<%=url.short%>').deleteLink()">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </td>
+              <td><%= url.clicks %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

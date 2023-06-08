@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../index.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat+Brush&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/58740b3685.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="nav-div">
+      <nav class="nav">
+        <i
+          class="fa-solid fa-hand-scissors fa-rotate-90 fa-lg"
+          style="color: #1e61b8"
+        ></i>
+        <a href="/"> <div class="logo">Scissors</div></a>
+      </nav>
+      <form action="/urls" method="get">
+        <div>
+          <button class="btn" type="submit">Analytics</button>
+        </div>
+      </form>
+    </div>
+    <div class="center">
+      <div><img src="<%=userUrls.qrLink%>"></div>
+
+      <div>
+        <button class="btn" type="submit">ENTER</button>
+      </div>
+    </div>
+  </body>
+</html>

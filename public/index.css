@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Poppins:wght@300&display=swap');
+*{
+    padding: 0%;
+    margin:0%;
+    box-sizing: border-box;
+
+}
+.nav{
+    display: flex;
+    gap: 16px;
+
+}
+.nav-div{
+    display: flex;
+    justify-content: space-between;
+}
+.nav > div{
+    font-family: 'Caveat Brush', cursive;
+}
+a {
+    text-decoration: none;
+    font-size: 0.8em;
+    overflow-wrap: break-word;
+}
+p>a{
+    color:#124d99;
+}
+td>a{
+    text-decoration: none;
+    color: black;
+}
+
+a>div{
+    font-family: 'Caveat Brush', cursive;
+    color: black;
+}
+
+body{
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* gap: 100px; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    background-color: #FCCB06;
+}
+.center{
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    justify-content: center;
+    align-items: center;  
+    margin-top: 80px;
+}
+
+.logo{
+    font-size: 2em;
+}
+
+.inputBox{
+    position:relative;
+    width: 250px;
+}
+
+.inputBox input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
+    outline: none;
+    color: rgba(116, 116, 235, 0.568);
+    font-size: 1em;
+    transition:0.5s;
+}
+
+.inputBox span{
+
+position: absolute;
+left: 0;
+padding: 10px;
+pointer-events: none;
+font-size: 1em;
+color: rgba(116, 116, 235, 0.568);
+text-transform: uppercase;
+transition: 0.5s;
+}
+
+
+.inputBox input:valid ~ span,
+.inputBox input:focus ~ span{
+
+
+    /* color: rgba(70, 70, 250, 0.568); */
+    color:whitesmoke;
+transform: translateX(10px) translateY(-7px);
+font-size: 0.65em;
+padding: 0 10px;
+background: #1e61b8;
+letter-spacing: 0.2em;
+border-radius: 2px;
+    }
+
+.inputBox input:valid,
+.inputBox input:focus {
+    border:1px solid #1e61b8
+}
+.inputBtn{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;   
+}
+.btn{
+    background-color:#1e61b8;
+    color:whitesmoke;
+    font-family:sans-serif;
+    outline: none;
+    font-size: 12px;
+    padding: 0.5em 1em;
+    margin: o.5em;
+    border-radius: 1em;
+    border:none;
+    outline:none;
+    cursor: pointer;
+    letter-spacing: 0.2em;
+}
+.btn:hover{
+    background: #124d99;
+    color: whitesmoke;
+    letter-spacing: 0.2em;
+}
+
+
+.urlForm{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.inputFields{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+p{
+    display:flex;
+    justify-content: center;
+    font-size: 1em;
+    color:black
+}
+
+.table{
+    width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 15px;
+}
+
+.table_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color:whitesmoke;
+}
+
+.table_header p{
+    color: black;
+    font-size: 2em
+}
+
+button{
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    padding:10px;
+    background-color: #1e61b8;
+    color:whitesmoke;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+
+td button:nth-child(1){
+    background-color:#000080;
+}
+
+td button:nth-child(2){
+    background-color:#CD3700;
+}
+
+.add_new{
+    padding: 10px 20px;
+    color: whitesmoke;
+    background-color: #1e61b8;
+}
+
+.table_section{
+    height:  500px;
+    overflow: auto;
+}
+
+table{
+    width: 100%;
+    table-layout: fixed;
+    min-width: 900px; 
+    border-collapse: collapse;  
+}
+
+thead th{
+    position: sticky;
+    top: 0%;
+    background-color: whitesmoke;
+    color: #1e61b8;
+    font-size: 20px;
+}
+
+th td{
+    border-bottom: 1px solid green;
+    padding: 10px 20px;
+    word-break: break-all;
+    text-align:center;
+}
+
+ td{
+    text-align: center;
+    font-size: 1.5em;
+} 
+
+tr:hover td{
+    background-color: #1e61b8;
+    cursor: pointer;
+    color: #fff;
+}
+tr:hover td>a{
+color:#fff
+
+}
+
+::-webkit-scrollbar{
+    height: 5px;
+    width: 5px;
+}
+
+::-webkit-scrollbar-track{
+box-shadow: inset 0 0 6px black;
+}
+
+::-webkit-scrollbar-thumb{
+    box-shadow: inset 0 0 6px black;
+}
