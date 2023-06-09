@@ -16,7 +16,7 @@ cloudinary.config({
 module.exports.generateQrCode = async (url, username) => {
   QRCode.toFile(
     `./qrcodes/${username}.png'`,
-    url,
+    url.full,
     {
       color: {
         dark: "#00F", // Blue dots
@@ -32,7 +32,7 @@ module.exports.generateQrCode = async (url, username) => {
     `./qrcodes/${username}.png'`,
     {
       folder: "linkQRcodes",
-      public_id: url,
+      public_id: url.short,
     }
   );
 

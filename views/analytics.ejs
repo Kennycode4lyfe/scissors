@@ -29,7 +29,9 @@
       <div class="table_header">
         <p>Url History</p>
         <div>
+          <form  action="/home" method="get">
           <button class="newUrl">Get New Link</button>
+          </form>
         </div>
       </div>
       <div class="table_section">
@@ -66,7 +68,7 @@
           <tbody>
             <% userUrls.urlDetails.forEach(url=>{ %>
             <tr>
-              <td><a href="/shortUrl/<%= url.full %>"><%=url.full %></a>
+              <td><a href="<%=url.full%>"><%=url.full %></a>
               </td>
              <td><a href="/shortUrl/<%= url.short %>"><%=userUrls.hostname%>/shortUrl/<%=url.short %></a>
             </td>

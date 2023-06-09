@@ -15,7 +15,7 @@ res.render("url",{shortUrl:{
 short:null
 }});
 }catch{
-  res.status(404).json({message:'page not found'})
+res.status(404).json({message:'page not found'})
 }
 
 });
@@ -32,7 +32,7 @@ urlRouter.post("/shortUrl", async (req, res) => {
       full: newUrlPayLoad.full,
       short: newUrlPayLoad.short,
     });
-    const urlQrCode = await qrCode.generateQrCode(shortUrl.short, req.user);
+    const urlQrCode = await qrCode.generateQrCode(shortUrl, req.user);
     const updatedUrl = await urlModel.findOneAndUpdate(
       { _id: shortUrl._id },
       { qrLink: urlQrCode.secure_url },
@@ -46,7 +46,7 @@ urlRouter.post("/shortUrl", async (req, res) => {
     })
     console.log(updatedUrl);
   }}catch(err){
-    res.sendStatus(500).json({message:err.message})
+    res.status(500).json({message:err.message})
   }
 });
 
@@ -81,12 +81,13 @@ urlRouter.get("/shortUrl/:url", async (req, res) => {
 try{
   const shortUrl = await urlModel.findOne({ short: req.params.url })
   console.log(shortUrl)
-  if (shortUrl == null) return res.sendStatus(404).json({message:'url not found'})
+  if (shortUrl == null) return res.status(404).json({message:'url not found'})
   shortUrl.clicks++
   shortUrl.save()
   res.status(200).redirect(shortUrl.full)
 }catch(err){
-res.status(500).json({message:err.message})
+res.json({message:err.message})
+res.end
 }
 });
 
