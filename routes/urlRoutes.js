@@ -9,7 +9,13 @@ const userModel = require("../models/user");
 const urlModel = require("../models/url");
 const urlRouter = express.Router();
 
-urlRouter.get("/home", async (req, res) => {
+urlRouter.get("/home",(req,res,next)=>{
+  if(req.user){
+    next()
+  }else{
+    res.redirect('/')
+  }
+  }, async (req, res) => {
 try{
 res.render("url",{shortUrl:{
 short:null
@@ -20,7 +26,13 @@ res.status(404).json({message:'page not found'})
 
 });
 
-urlRouter.post("/shortUrl", async (req, res) => {
+urlRouter.post("/shortUrl",(req,res,next)=>{
+  if(req.user){
+    next()
+  }else{
+    res.redirect('/')
+  }
+  }, async (req, res) => {
   try{
     const newUrlPayLoad = req.body;
     const user = await userModel.findOne({ username: req.user.username });
@@ -52,7 +64,13 @@ urlRouter.post("/shortUrl", async (req, res) => {
 
 
 
-urlRouter.delete("/urls", async (req, res) => {
+urlRouter.delete("/urls",(req,res,next)=>{
+  if(req.user){
+    next()
+  }else{
+    res.redirect('/')
+  }
+  }, async (req, res) => {
   try{
     await urlModel.deleteMany();
     res.status(200).json({ message: "all urls deleted" });
@@ -63,7 +81,13 @@ urlRouter.delete("/urls", async (req, res) => {
 
 });
 
-urlRouter.delete("/shortUrl/:url", async (req, res) => {
+urlRouter.delete("/shortUrl/:url",(req,res,next)=>{
+  if(req.user){
+    next()
+  }else{
+    res.redirect('/')
+  }
+  }, async (req, res) => {
   try{
   const urlParam = req.params.url
   console.log(typeof(urlParam))
@@ -77,7 +101,13 @@ urlRouter.delete("/shortUrl/:url", async (req, res) => {
   }
 });
 
-urlRouter.get("/shortUrl/:url", async (req, res) => {
+urlRouter.get("/shortUrl/:url",(req,res,next)=>{
+  if(req.user){
+    next()
+  }else{
+    res.redirect('/')
+  }
+  }, async (req, res) => {
 try{
   const shortUrl = await urlModel.findOne({ short: req.params.url })
   console.log(shortUrl)
@@ -91,7 +121,13 @@ res.end
 }
 });
 
-urlRouter.get("/urls", async (req, res) => {
+urlRouter.get("/urls",(req,res,next)=>{
+  if(req.user){
+    next()
+  }else{
+    res.redirect('/')
+  }
+  }, async (req, res) => {
   try{
   const username = req.user.username;
   const hostname = req.headers.host
@@ -114,7 +150,13 @@ urlRouter.get("/urls", async (req, res) => {
 }
 });
 
-urlRouter.get("/qrcode/:link", async (req, res) => {
+urlRouter.get("/qrcode/:link",(req,res,next)=>{
+  if(req.user){
+    next()
+  }else{
+    res.redirect('/')
+  }
+  }, async (req, res) => {
   try{
   const shortLink = req.params.link;
 console.log(shortLink)
