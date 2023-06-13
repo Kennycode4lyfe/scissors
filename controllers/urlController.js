@@ -1,12 +1,14 @@
-const express = require("express");
-const passport = require("passport");
 const isUrlHttp = require("is-url-http");
 const cloudinary = require("cloudinary").v2;
 const qrCode = require("../qrcode");
-const urlController = require("../controllers/urlController");
-const userController = require("../controllers/userController");
 const userModel = require("../models/user");
 const urlModel = require("../models/url");
+const {Redis} = require('../saveToRedis')
+console.log(typeof(Redis))
+
+const saveToRedis = new Redis
+saveToRedis.connect()
+
 
 module.exports.home = async (req, res) => {
   try {
@@ -51,6 +53,7 @@ module.exports.postUrlDetails = async (req, res) => {
       console.log(updatedUrl);
     }
   } catch (err) {
+    console.log(err)
     res.status(500).json({ message: err.message });
   }
 };
@@ -58,6 +61,7 @@ module.exports.postUrlDetails = async (req, res) => {
 module.exports.deleteUrls = async (req, res) => {
   try {
     await urlModel.deleteMany();
+    await saveToRedis.deleteAllCache()
     res.status(200).json({ message: "all urls deleted" });
   } catch (err) {
     console.log(err.message);
@@ -81,14 +85,19 @@ module.exports.deleteUrl = async (req, res) => {
 
 module.exports.getUrl = async (req, res) => {
   try {
-    const shortUrl = await urlModel.findOne({ short: req.params.url });
-    console.log(shortUrl);
-    if (shortUrl == null)
-      return res.status(404).json({ message: "url not found" });
-    shortUrl.clicks++;
-    shortUrl.save();
-    res.status(200).redirect(shortUrl.full);
+    
+      const shortUrl = await urlModel.findOne({ short: req.params.url });
+      console.log(shortUrl);
+      if (shortUrl == null){
+      return res.status(404).json({ message: "url not found" });}
+      else{
+      shortUrl.clicks++;
+      shortUrl.save();
+      res.status(200).redirect(shortUrl.full);
+      }
+
   } catch (err) {
+    console.log(err)
     res.json({ message: err.message });
     res.end;
   }
@@ -96,22 +105,36 @@ module.exports.getUrl = async (req, res) => {
 
 module.exports.getAllUrls = async (req, res) => {
   try {
-    const username = req.user.username;
+    const savedUserUrls = await saveToRedis.getCache(`${req.user.username}:urls`)
     const hostname = req.headers.host;
-    console.log(username);
-    const user = await userModel.findOne({ username: username });
-    const userUrls = await urlModel.find({ user: user._id }).populate("user");
-    if (!userUrls) {
-      res.sendStatus(404).json({ message: "url not found" });
-    } else {
+    if(savedUserUrls){
+      const parsedSavedUserUrls = JSON.parse(savedUserUrls)
+      console.log(parsedSavedUserUrls)
       res.status(200).render("analytics", {
         userUrls: {
-          urlDetails: userUrls,
+          urlDetails: parsedSavedUserUrls,
           hostname: hostname,
         },
       });
+    }else{
+      const username = req.user.username;
+     
+      // console.log(username);
+      const user = await userModel.findOne({ username: username });
+      const userUrls = await urlModel.find({ user: user._id }).populate("user");
+      await saveToRedis.setCache(`${req.user.username}:urls`,JSON.stringify(userUrls))
+      if (!userUrls) {
+        res.sendStatus(404).json({ message: "url not found" });
+      } else {
+        res.status(200).render("analytics", {
+          userUrls: {
+            urlDetails: userUrls,
+            hostname: hostname,
+          },
+        });
+      }
     }
-  } catch (err) {
+  }catch (err) {
     if (err) {
       res.status(500).json({ message: "error" });
     }

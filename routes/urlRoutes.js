@@ -1,13 +1,5 @@
 const express = require("express");
-const passport = require("passport");
-const isUrlHttp = require('is-url-http')
-const cloudinary = require("cloudinary").v2;
-
-const qrCode = require("../qrcode");
 const urlController = require('../controllers/urlController')
-const userController = require("../controllers/userController");
-const userModel = require("../models/user");
-const urlModel = require("../models/url");
 const urlRouter = express.Router();
 const sessionChecker = require('../sessionCheckmiddleware')
 

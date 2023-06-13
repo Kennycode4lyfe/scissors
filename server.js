@@ -26,7 +26,7 @@ require('./passport')
 app.get('/', (req, res) => {
     // console.log(req.user)
     if(req.user){
-      res.render('url')
+      res.render('url') 
     }else{
     res.render('index')
 }  })

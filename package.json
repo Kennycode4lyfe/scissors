@@ -31,6 +31,7 @@
     "passport": "^0.6.0",
     "passport-custom": "^1.1.1",
     "qrcode": "^1.5.3",
+    "redis": "^4.6.7",
     "supertest": "^6.3.3"
   }
 }
