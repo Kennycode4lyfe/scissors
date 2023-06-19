@@ -4,10 +4,10 @@ const qrCode = require("../qrcode");
 const userModel = require("../models/user");
 const urlModel = require("../models/url");
 const {Redis} = require('../saveToRedis')
-console.log(typeof(Redis))
+
 
 const saveToRedis = new Redis
-saveToRedis.connect()
+
 
 
 module.exports.home = async (req, res) => {
@@ -21,10 +21,13 @@ module.exports.home = async (req, res) => {
     res.status(404).json({ message: "page not found" });
   }
 };
+
+
 module.exports.postUrlDetails = async (req, res) => {
   try {
     const newUrlPayLoad = req.body;
     const user = await userModel.findOne({ username: req.user.username });
+    console.log(user)
     if (isUrlHttp(newUrlPayLoad.full) == false) {
       res
         .status(403)
@@ -41,15 +44,18 @@ module.exports.postUrlDetails = async (req, res) => {
         { qrLink: urlQrCode.secure_url },
         { new: true }
       );
+      const savedUserUrls = await saveToRedis.deleteCache(`${req.user.username}:urls`)
 
       const shortUrlLink =
         req.headers.host + "/shortUrl" + "/" + updatedUrl.short;
       console.log(shortUrlLink);
+      
       res
         .status(200)
         .render("url", {
           shortUrl: { short: shortUrlLink, urlDetails: updatedUrl },
         });
+        console.log(res.text)
       console.log(updatedUrl);
     }
   } catch (err) {
@@ -74,11 +80,13 @@ module.exports.deleteUrl = async (req, res) => {
     const urlParam = req.params.url;
     console.log(typeof urlParam);
     const urlToDelete = await urlModel.findOne({ short: urlParam });
+
     await cloudinary.uploader.destroy(urlToDelete.full);
+    await saveToRedis.deleteAllCache()
     console.log("about to delete");
     await urlModel.deleteOne({ short: urlParam });
     res.status(200).json({ message: "url deleted" });
-  } catch (err) {
+  }catch (err) {
     res.status(500).json({ message: err.message });
   }
 };

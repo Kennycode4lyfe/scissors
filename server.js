@@ -2,10 +2,13 @@ const express = require('express')
 const app = express()
 const passport = require('passport')
 const database = require('./database/db')
+const redisDatabase = require('./database/redisDb')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const userRoute = require('./routes/userRoutes')
 const urlRoute = require('./routes/urlRoutes')
+const {Redis} = require('./saveToRedis')
+const connectRedis = new Redis
 require('dotenv').config()
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -13,6 +16,7 @@ app.set('view engine', 'ejs')
 
 app.use(express.static(__dirname + '/public'));
 database.connectToDb()
+connectRedis.connectToRedis()
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
