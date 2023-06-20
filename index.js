@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const passport = require('passport')
-// const database = require('./database/db')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const userRoute = require('./routes/userRoutes')
@@ -14,7 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.set('view engine', 'ejs')
 
 app.use(express.static(__dirname + '/public'));
-// database.connectToDb()
 connectRedis.connectToRedis()
 app.use(session({
   secret: process.env.SESSION_SECRET,
