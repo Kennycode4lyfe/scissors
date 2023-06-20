@@ -1,7 +1,7 @@
 const express = require("express");
 const urlController = require('../controllers/urlController')
 const urlRouter = express.Router();
-const sessionChecker = require('../sessionCheckmiddleware')
+const sessionChecker = require('../middleware/sessionCheckmiddleware')
 
 urlRouter.get("/home",sessionChecker.checkSession, urlController.home);
 

@@ -1,6 +1,6 @@
 
 const passportCustomStrategy = require('passport-custom').Strategy
-const userModel = require('./models/user')
+const userModel = require('../models/user')
 const passport = require('passport')
 
 

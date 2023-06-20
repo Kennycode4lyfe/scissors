@@ -25,7 +25,7 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
-require('./passport')
+require('./middleware/passport')
 app.get('/', (req, res) => {
     // console.log(req.user)
     if(req.user){
