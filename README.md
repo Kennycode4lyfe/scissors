@@ -75,11 +75,11 @@ This app allows users to delete generated url links
 
 ### Enter a username to redirect to homepage
 
-![enter a username](</frontend/public/assets/enter_username.png>)
+![enter a username](</public/assets/enter_username.png>)
 
 ### Enter url details
 
-![enter url details](</frontend/public/assets/enter_url_details.png>)
+![enter url details](</public/assets/enter_url_details.png>)
 
 ### click the generate button to generate a short url 
 
