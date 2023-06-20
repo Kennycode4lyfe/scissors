@@ -12,7 +12,7 @@ class Redis {
 }
 
   async setCache(key,value){
-    await client.lPush(key,value)
+    await client.set(key,value)
     console.log('cache hit')
 
   }
