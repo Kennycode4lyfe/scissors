@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const passport = require('passport')
+const helmet = require('helmet')
+const rateLimit = require("express-rate-limit");
 const database = require('./database/db')
 const bodyParser = require('body-parser')
 const session = require('express-session')
@@ -33,6 +35,21 @@ app.get('/', (req, res) => {
     }else{
     res.render('index')
 }  })
+
+const limiter = rateLimit({
+	windowMs: 0.5 * 60 * 1000, // 15 minutes
+	max: 4, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+	standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+})
+
+//add secuirty
+app.use(helmet())
+
+
+// Apply the rate limiting middleware to all requests
+app.use(limiter)
+
 app.use('/',userRoute)
 app.use('/',urlRoute)
 

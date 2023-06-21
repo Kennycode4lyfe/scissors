@@ -1,4 +1,4 @@
-const fs = require("node:fs");
+const fs = require("fs");
 const QRCode = require("qrcode");
 const dotenv = require("dotenv").config();
 const cloudinary = require("cloudinary").v2;
