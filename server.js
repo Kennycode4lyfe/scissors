@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const passport = require('passport')
-const helmet = require('helmet')
 const rateLimit = require("express-rate-limit");
 const database = require('./database/db')
 const bodyParser = require('body-parser')
@@ -43,8 +42,8 @@ const limiter = rateLimit({
 	legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 })
 
-//add secuirty
-app.use(helmet({contentSecurityPolicy: false}))
+
+
 
 
 // Apply the rate limiting middleware to all requests
