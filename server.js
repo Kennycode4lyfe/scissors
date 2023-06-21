@@ -44,7 +44,7 @@ const limiter = rateLimit({
 })
 
 //add secuirty
-app.use(helmet())
+app.use(helmet({contentSecurityPolicy: false}))
 
 
 // Apply the rate limiting middleware to all requests
