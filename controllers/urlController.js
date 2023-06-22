@@ -12,11 +12,13 @@ const saveToRedis = new Redis
 //render home page
 module.exports.home = async (req, res) => {
   try {
-    res.render("url", {
+    res.render("url"
+    , {
       shortUrl: {
         short: null,
       },
-    });
+    }
+    );
   } catch {
     res.status(404).json({ message: "page not found" });
   }
@@ -100,6 +102,7 @@ module.exports.getUrl = async (req, res) => {
       if (shortUrl == null){
       return res.status(404).json({ message: "url not found" });}
       else{
+        await saveToRedis.deleteCache(`${req.user.username}:urls`)
       shortUrl.clicks++;
       shortUrl.save();
       res.status(200).redirect(shortUrl.full);
