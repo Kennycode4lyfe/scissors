@@ -9,7 +9,7 @@ const {Redis} = require('../saveToRedis')
 const saveToRedis = new Redis
 
 
-
+//render home page
 module.exports.home = async (req, res) => {
   try {
     res.render("url", {
@@ -22,12 +22,11 @@ module.exports.home = async (req, res) => {
   }
 };
 
-
+//create shortUrl
 module.exports.postUrlDetails = async (req, res) => {
   try {
     const newUrlPayLoad = req.body;
     const user = await userModel.findOne({ username: req.user.username });
-    console.log(user)
     if (isUrlHttp(newUrlPayLoad.full) == false) {
       res
         .status(403)
@@ -48,15 +47,13 @@ module.exports.postUrlDetails = async (req, res) => {
 
       const shortUrlLink =
         req.headers.host + "/shortUrl" + "/" + updatedUrl.short;
-      console.log(shortUrlLink);
       
       res
         .status(200)
         .render("url", {
           shortUrl: { short: shortUrlLink, urlDetails: updatedUrl },
         });
-        console.log(res.text)
-      console.log(updatedUrl);
+
     }
   } catch (err) {
     console.log(err)
@@ -64,6 +61,8 @@ module.exports.postUrlDetails = async (req, res) => {
   }
 };
 
+
+//delete all shortUrls
 module.exports.deleteUrls = async (req, res) => {
   try {
     await urlModel.deleteMany();
@@ -75,10 +74,11 @@ module.exports.deleteUrls = async (req, res) => {
   }
 };
 
+
+//delete a shortUrl 
 module.exports.deleteUrl = async (req, res) => {
   try {
     const urlParam = req.params.url;
-    console.log(typeof urlParam);
     const urlToDelete = await urlModel.findOne({ short: urlParam });
 
     await cloudinary.uploader.destroy(urlToDelete.full);
@@ -91,11 +91,12 @@ module.exports.deleteUrl = async (req, res) => {
   }
 };
 
+
+//redirect for shortUrl
 module.exports.getUrl = async (req, res) => {
   try {
     
       const shortUrl = await urlModel.findOne({ short: req.params.url });
-      console.log(shortUrl);
       if (shortUrl == null){
       return res.status(404).json({ message: "url not found" });}
       else{
@@ -111,13 +112,13 @@ module.exports.getUrl = async (req, res) => {
   }
 };
 
+//get all shortUrls created by the user
 module.exports.getAllUrls = async (req, res) => {
   try {
     const savedUserUrls = await saveToRedis.getCache(`${req.user.username}:urls`)
     const hostname = req.headers.host;
     if(savedUserUrls){
       const parsedSavedUserUrls = JSON.parse(savedUserUrls)
-      console.log(parsedSavedUserUrls)
       res.status(200).render("analytics", {
         userUrls: {
           urlDetails: parsedSavedUserUrls,
@@ -126,8 +127,6 @@ module.exports.getAllUrls = async (req, res) => {
       });
     }else{
       const username = req.user.username;
-     
-      // console.log(username);
       const user = await userModel.findOne({ username: username });
       const userUrls = await urlModel.find({ user: user._id }).populate("user");
       await saveToRedis.setCache(`${req.user.username}:urls`,JSON.stringify(userUrls))
@@ -144,17 +143,17 @@ module.exports.getAllUrls = async (req, res) => {
     }
   }catch (err) {
     if (err) {
+      console.log(err)
       res.status(500).json({ message: "error" });
     }
   }
 };
 
+//render qr-code for the shortUrl
 module.exports.getQrcode = async (req, res) => {
   try {
     const shortLink = req.params.link;
-    console.log(shortLink);
     const userUrl = await urlModel.findOne({ short: shortLink });
-    console.log(userUrl);
     res.status(200).render("qrcode", { userUrls: userUrl });
   } catch (err) {
     if (err) {

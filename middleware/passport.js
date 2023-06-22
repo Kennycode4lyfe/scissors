@@ -1,9 +1,8 @@
-
 const passportCustomStrategy = require('passport-custom').Strategy
 const userModel = require('../models/user')
 const passport = require('passport')
 
-
+//create custom strategy with passport 
 passport.use('checkUser', new passportCustomStrategy(
  async function(req, callback) {
      const userExist = await userModel.findOne({username:req.body.username})
@@ -17,7 +16,7 @@ passport.use('checkUser', new passportCustomStrategy(
 ));
 
 
-
+//determine what to store in session
 passport.serializeUser((user, cb) => {
   console.log(`serializeUser ${user}`);
   cb(null, user);

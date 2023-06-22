@@ -3,6 +3,7 @@ const urlController = require('../controllers/urlController')
 const urlRouter = express.Router();
 const sessionChecker = require('../middleware/sessionCheckmiddleware')
 
+//url routes
 urlRouter.get("/home",sessionChecker.checkSession, urlController.home);
 
 urlRouter.post("/shortUrl",sessionChecker.checkSession,urlController.postUrlDetails);

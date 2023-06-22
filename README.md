@@ -42,7 +42,7 @@ This app allows users to delete generated url links
 
 ## Deployed URL
 
-- <p><a href="https://chatbot-y67d.onrender.com">click here to view deployed site</a></p>
+- <p><a href="https://scissors-8vmd.onrender.com">click here to view deployed site</a></p>
 
 ## Backend
 

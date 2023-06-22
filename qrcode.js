@@ -14,6 +14,7 @@ cloudinary.config({
 });
 
 module.exports.generateQrCode = async (url, username) => {
+  //create png file with {username} as filename and store temporarily in qrcodes folder
   QRCode.toFile(
     `./qrcodes/${username}.png'`,
     url.full,
@@ -28,6 +29,8 @@ module.exports.generateQrCode = async (url, username) => {
       console.log("qr-code generated");
     }
   );
+
+  // upload the created png file to cloudinary 
   const cloudinaryResponse = await cloudinary.uploader.upload(
     `./qrcodes/${username}.png'`,
     {
@@ -36,6 +39,7 @@ module.exports.generateQrCode = async (url, username) => {
     }
   );
 
+  //delete png file in qrcodes folder
   fs.unlink(`./qrcodes/${username}.png'`, (err) => {
     if (err) return;
   });
